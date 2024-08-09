@@ -1,0 +1,16 @@
+name: 'Get & Cached dependencies'
+description: 'Get & Cached dependencies'
+runs:
+  using: composite
+  steps:
+    - name: Cached dependencies'
+      id: Cached
+      uses: actions/cache@v3
+      with:
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+        path: node_modules
+    - name: Get dependencies'
+      run: npm ci
+      shell: bash
