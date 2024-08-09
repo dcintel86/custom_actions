@@ -1,16 +1,24 @@
 name: 'Get & Cached dependencies'
 description: 'Get & Cached dependencies'
+inputs:
+  caching:
+    description: Whether cached is required or not
+    required: true
+    default: 'true'
 runs:
   using: composite
   steps:
     - name: Cached dependencies'
       id: Cached
       uses: actions/cache@v3
+      if: inputs.caching == 'true'
       with:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
         path: node_modules
+
     - name: Get dependencies'
+      if: inputs.caching != 'true' || steps.Cached.outputs.cache-hit != 'true'
       run: npm ci
       shell: bash
