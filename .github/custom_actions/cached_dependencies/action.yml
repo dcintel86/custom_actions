@@ -5,6 +5,10 @@ inputs:
     description: Whether cached is required or not
     required: true
     default: 'true'
+outputs:
+  used-cached:
+    description: Whether cached was used or not
+    value: ${{ steps.install.outputs.cached }}
 runs:
   using: composite
   steps:
@@ -19,6 +23,9 @@ runs:
         path: node_modules
 
     - name: Get dependencies'
+      id: install
       if: inputs.caching != 'true' || steps.Cached.outputs.cache-hit != 'true'
-      run: npm ci
+      run: |
+        npm ci
+        echo "cached='${{ inputs.caching }}" >> $GITHUB_OUTPUT
       shell: bash
