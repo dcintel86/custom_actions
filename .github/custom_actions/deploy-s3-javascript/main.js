@@ -12,7 +12,8 @@ function run() {
     // 2) Upload fukes
     const s3Uri = `s3://${bucket}`
     exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`);
+    const websiteURL = `http://${bucket}.s3-website-${bucketRegion}.amazonaws.com`
+    core.setOutput('website-url', websiteURL);
 
-    core.notice('Hellow from my custom Javascript Action');
 }
 run();
