@@ -66,12 +66,12 @@ jobs:
         run: ls
       - name: Deploy site
         id: deploy
-        uses: ./.github/custom_actions/deploy-s3-javascript
+        uses: ./.github/custom_actions/deploy-s3-docker
         env: 
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
         with:
-          bucket: kyle-test-web1
+          bucket: kyletest-custom-action
           dist-folder: ./dist
       - name: Output information
         run: |
